@@ -29,6 +29,7 @@ public final class Config {
     properties.setProperty("battle_ui_g", "41");
     properties.setProperty("battle_ui_b", "159");
     properties.setProperty("youtubeChatId", "");
+    properties.setProperty("youtubeApiKey", "");
   }
 
   public static int windowWidth() {
@@ -103,6 +104,7 @@ public final class Config {
   public static @Nonnull String getYouTubeLiveChatId() {
     return properties.getProperty("youtubeChatId", "");
   }
+  public static @Nonnull String getYouTubeApiKey() { return properties.getProperty("youtubeApiKey", ""); }
 
   private static int readInt(final String key, final int defaultVal, final int min, final int max) {
     int val;

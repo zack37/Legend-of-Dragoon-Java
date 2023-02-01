@@ -16,6 +16,7 @@ import java.util.concurrent.Flow;
 
 public class YouTubePublisher implements LoDPlays {
     private final String liveChatId;
+    private final String apiKey;
     private static final String baseUrl = "https://www.googleapis.com/youtube/v3/liveChat/messages";
     List<Flow.Subscriber<? super PlayInput>> subscriptions;
     private final Thread runner = new Thread(this);
@@ -27,8 +28,9 @@ public class YouTubePublisher implements LoDPlays {
 
     private final static Object monitor = new Object();
 
-    public YouTubePublisher(String liveChatId) {
+    public YouTubePublisher(final String liveChatId, final String apiKey) {
         this.liveChatId = liveChatId;
+        this.apiKey = apiKey;
     }
 
     @Override
@@ -41,8 +43,12 @@ public class YouTubePublisher implements LoDPlays {
         while (true) {
             try {
                 synchronized (monitor) {
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl).newBuilder().addQueryParameter("liveChatId", this.liveChatId);
-                    if(this.pageToken != null) {
+                    HttpUrl.Builder urlBuilder = HttpUrl
+                        .parse(baseUrl)
+                        .newBuilder()
+                        .addQueryParameter("liveChatId", this.liveChatId)
+                        .addQueryParameter("key", this.apiKey);
+                    if (this.pageToken != null) {
                         urlBuilder.addQueryParameter("pageToken", this.pageToken);
                     }
 
